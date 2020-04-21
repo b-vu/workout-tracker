@@ -23,9 +23,29 @@ module.exports = function(app) {
         });
     });
 
+    app.post("/api/workouts", (req, res) => {
+        db.Workout.create(req.body).then(dbResult => {
+            res.json(dbResult);
+        }).catch(err => {
+            res.json(err);
+        });
+    });
+
+    app.get("/api/workouts/range", (req, res) => {
+        db.Workout.find({}).then(dbResult => {
+            res.json(dbResult);
+        }).catch(err => {
+            res.json(err);
+        });
+    });
+
     //html routes
 
     app.get("/exercise", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/exercise.html"));
+    });
+
+    app.get("/stats", (req, res) => {
+        res.sendFile(path.join(__dirname, "../public/stats.html"));
     });
 };
