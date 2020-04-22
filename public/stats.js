@@ -38,10 +38,11 @@ function populateChart(data) {
   let dailyDurations = dailyDuration(data);
   let durations = duration(data);
   let pounds = calculateTotalWeight(data);
+  let dailyPounds = dailyTotalWeight(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
 
-  let dateArray = [];
+  const dateArray = [];
 
   let line = document.querySelector("#canvas").getContext("2d");
   let bar = document.querySelector("#canvas2").getContext("2d");
@@ -104,19 +105,11 @@ function populateChart(data) {
   let barChart = new Chart(bar, {
     type: "bar",
     data: {
-      labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
+      labels: dateArray,
       datasets: [
         {
           label: "Pounds",
-          data: pounds,
+          data: dailyPounds,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
@@ -196,7 +189,7 @@ function populateChart(data) {
 }
 
 function duration(data) {
-  let durations = [];
+  const durations = [];
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
@@ -208,7 +201,7 @@ function duration(data) {
 }
 
 function calculateTotalWeight(data) {
-  let total = [];
+  const total = [];
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
@@ -220,11 +213,11 @@ function calculateTotalWeight(data) {
 }
 
 function dailyDuration(data) {
-  let durations = [];
+  const durations = [];
 
-  if(data.length < 7){
+  if(data.length <= 7){
     data.forEach(workout => {
-      let dailyDurations = [];
+      const dailyDurations = [];
       let dailyTotal = 0;
   
       workout.exercises.forEach(exercise => {
@@ -243,7 +236,7 @@ function dailyDuration(data) {
   }
   else{
     for(let i = (data.length - 7); i <= (data.length - 1); i++){
-      let dailyDurations = [];
+      const dailyDurations = [];
       let dailyTotal = 0;
 
       data[i].exercises.forEach(exercise => {
@@ -263,7 +256,7 @@ function dailyDuration(data) {
 }
 
 function calculateTotalWeight(data) {
-  let total = [];
+  const total = [];
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
@@ -275,8 +268,44 @@ function calculateTotalWeight(data) {
   return total;
 }
 
+function dailyTotalWeight(data) {
+  const totalWeights = [];
+
+  if (data.length <= 7) {
+    data.forEach(workout => {
+      workout.exercises.forEach(exercise => {
+        totalWeights.push(exercise.weight);
+      });
+    });
+    console.log("Weights:");
+    console.log(totalWeights);
+    return totalWeights;
+  }
+  else {
+    for (let i = (data.length - 7); i <= (data.length - 1); i++) {
+      const dailyTotalsArray = [];
+      let dailyTotal = 0;
+
+      data[i].exercises.forEach(exercise => {
+        if(exercise.weight){
+          dailyTotalsArray.push(exercise.weight);
+        }
+      });
+
+      dailyTotalsArray.forEach(duration => {
+        dailyTotal += duration;
+      });
+
+      totalWeights.push(dailyTotal);
+    }
+    console.log("Weights:");
+    console.log(totalWeights);
+    return totalWeights;
+  }
+}
+
 function workoutNames(data) {
-  let workouts = [];
+  const workouts = [];
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
