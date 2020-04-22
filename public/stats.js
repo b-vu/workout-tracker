@@ -40,6 +40,7 @@ function populateChart(data) {
   let pounds = calculateTotalWeight(data);
   let dailyPounds = dailyTotalWeight(data);
   let workouts = workoutNames(data);
+  let workoutsPieChart = workoutNamesForPieChart(data);
   const colors = generatePalette();
 
   const dateArray = [];
@@ -150,10 +151,10 @@ function populateChart(data) {
   let pieChart = new Chart(pie, {
     type: "pie",
     data: {
-      labels: workouts,
+      labels: workoutsPieChart,
       datasets: [
         {
-          label: "Excercises Performed",
+          label: "Excercises Performed (minutes)",
           backgroundColor: colors,
           data: durations
         }
@@ -162,7 +163,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Excercises Performed (minutes)"
       }
     }
   });
@@ -173,7 +174,7 @@ function populateChart(data) {
       labels: workouts,
       datasets: [
         {
-          label: "Excercises Performed",
+          label: "Excercises Performed (pounds)",
           backgroundColor: colors,
           data: pounds
         }
@@ -182,34 +183,50 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Excercises Performed (pounds)"
       }
     }
   });
 }
 
 function duration(data) {
+  const workouts = [];
   const durations = [];
 
-  data.forEach(workout => {
-    workout.exercises.forEach(exercise => {
-      durations.push(exercise.duration);
+  if(data.length <= 7){
+    data.forEach(day => {
+      day.exercises.forEach(exercise => {
+        if(workouts.indexOf(exercise.name.toLowerCase()) === -1){
+          workouts.push(exercise.name.toLowerCase());
+          durations.push(exercise.duration);
+        }
+        else{
+          durations[workouts.indexOf(exercise.name.toLowerCase())] += exercise.duration;
+        }
+      });
     });
-  });
-
-  return durations;
-}
-
-function calculateTotalWeight(data) {
-  const total = [];
-
-  data.forEach(workout => {
-    workout.exercises.forEach(exercise => {
-      total.push(exercise.weight);
-    });
-  });
-
-  return total;
+    console.log("Durations:");
+    console.log(durations);
+    console.log(workouts);
+    return durations;
+  }
+  else{
+    for(let i = (data.length - 7); i <= (data.length - 1); i++){
+      data[i].exercises.forEach(exercise => {
+        if(workouts.indexOf(exercise.name.toLowerCase()) === -1){
+          workouts.push(exercise.name.toLowerCase());
+          durations.push(exercise.duration);
+        }
+        else{
+          durations[workouts.indexOf(exercise.name.toLowerCase())] += exercise.duration;
+        }
+      });
+    }
+    console.log("Durations:");
+    console.log(durations);
+    console.log(workouts);
+    return durations;
+  }
 }
 
 function dailyDuration(data) {
@@ -230,7 +247,7 @@ function dailyDuration(data) {
   
       durations.push(dailyTotal);
     });
-    console.log("Durations:");
+    console.log("Daily Durations:");
     console.log(durations);
     return durations;
   }
@@ -249,7 +266,7 @@ function dailyDuration(data) {
   
       durations.push(dailyTotal);
     }
-    console.log("Durations:");
+    console.log("Daily Durations:");
     console.log(durations);
     return durations;
   }
@@ -273,11 +290,23 @@ function dailyTotalWeight(data) {
 
   if (data.length <= 7) {
     data.forEach(workout => {
+      const dailyTotalsArray = [];
+      let dailyTotal = 0;
+
       workout.exercises.forEach(exercise => {
-        totalWeights.push(exercise.weight);
+        if(exercise.weight){
+          dailyTotalsArray.push(exercise.weight);
+        }
       });
+
+      dailyTotalsArray.forEach(duration => {
+        dailyTotal += duration;
+      });
+
+      totalWeights.push(dailyTotal);
+
     });
-    console.log("Weights:");
+    console.log("Daily Weights:");
     console.log(totalWeights);
     return totalWeights;
   }
@@ -298,7 +327,7 @@ function dailyTotalWeight(data) {
 
       totalWeights.push(dailyTotal);
     }
-    console.log("Weights:");
+    console.log("Daily Weights:");
     console.log(totalWeights);
     return totalWeights;
   }
@@ -309,10 +338,38 @@ function workoutNames(data) {
 
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
-      workouts.push(exercise.name);
+      workouts.push(exercise.name.toLowerCase());
     });
   });
-  console.log("Total workouts:");
-  console.log(workouts);
+  
   return workouts;
+}
+
+function workoutNamesForPieChart(data) {
+  const workouts = [];
+
+  if(data.length <= 7){
+    data.forEach(day => {
+      day.exercises.forEach(exercise => {
+        if(workouts.indexOf(exercise.name.toLowerCase()) === -1){
+          workouts.push(exercise.name.toLowerCase());
+        }
+      });
+    });
+    console.log("Workouts:");
+    console.log(workouts);
+    return workouts;
+  }
+  else{
+    for(let i = (data.length - 7); i <= (data.length - 1); i++){
+      data[i].exercises.forEach(exercise => {
+        if(workouts.indexOf(exercise.name.toLowerCase()) === -1){
+          workouts.push(exercise.name.toLowerCase());
+        }
+      });
+    }
+    console.log("Workouts:");
+    console.log(workouts);
+    return workouts;
+  }
 }
