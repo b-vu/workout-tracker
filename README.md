@@ -5,17 +5,6 @@
 This application allows you to track any workout you perform. By entering your specific workout, Mongoose enters your workout information into a MongoDB database. This project also stores and presents your weekly workouts in 4 easy-to-read, helpful graphs. Now you have a simple, friendly web application to track your workouts every week!
 
 Check out the website on [Heroku](https://hidden-harbor-84321.herokuapp.com/?id=5ea1f3134772da0017ab0837)!
-    
-## Table of Contents
-    
-* [Installation](#installation)
-* [Usage](#usage)
-* [Tests](#tests)
-* [Badges](#badges)
-* [License](#license)
-* [Contributing](#contributing)
-* [Credits](#credits)
-* [Questions](#questions)
 
 ## Badges
 
