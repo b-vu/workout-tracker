@@ -6,16 +6,6 @@ This application allows you to track any workout you perform. By entering your s
 
 Check out the website on [Heroku](https://hidden-harbor-84321.herokuapp.com/?id=5ea1f3134772da0017ab0837)!
 
-## Badges
-
-![Dependencies Check](https://img.shields.io/david/b-vu/workout-tracker?style=flat-square)
-![Repository Size](https://img.shields.io/github/repo-size/b-vu/workout-tracker?style=flat-square)
-![Top Repository Language](https://img.shields.io/github/languages/top/b-vu/workout-tracker?style=flat-square)
-        
-## Contributing
-    
-Please refer to the [Contributor Covenant](https://www.contributor-covenant.org/) if you'd like to contribute to this project.
-
 ## Credits
 
 [MongoDB](https://www.mongodb.com/)
