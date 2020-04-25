@@ -82,7 +82,8 @@ function populateChart(data) {
     options: {
       responsive: true,
       title: {
-        display: true
+        display: true,
+        text: "Workout Durations"
       },
       scales: {
         xAxes: [
