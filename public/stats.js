@@ -59,7 +59,9 @@ function populateChart(data) {
   }
   else{
     data.forEach(exercise => {
-      dateArray.push(exercise.day.split("T")[0]);
+      let date = exercise.day.split("T")[0];
+      let finalDate = date.split("-");
+      dateArray.push(finalDate[1] + "-" + finalDate[2]);
     });
   }
 

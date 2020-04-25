@@ -11,8 +11,11 @@ async function initWorkout() {
       .querySelector("a[href='/exercise?']")
       .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
+    const dateDisplay = lastWorkout.day.split("T")[0];
+    const dateArr = dateDisplay.split("-");
+
     const workoutSummary = {
-      date: formatDate(lastWorkout.day),
+      date: dateArr[1] + "-" + dateArr[2] + "-" + dateArr[0],
       totalDuration: duration,
       numExercises: lastWorkout.exercises.length,
       ...tallyExercises(lastWorkout.exercises)
