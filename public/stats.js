@@ -278,14 +278,27 @@ function dailyDuration(data) {
 function calculateTotalWeight(data) {
   const total = [];
 
-  data.forEach(workout => {
-    workout.exercises.forEach(exercise => {
-      total.push(exercise.weight);
+  if (data.length <= 7) {
+    data.forEach(workout => {
+      workout.exercises.forEach(exercise => {
+        total.push(exercise.weight);
+      });
     });
-  });
-  console.log("Weights:");
-  console.log(total);
-  return total;
+    console.log("Donut weights:");
+    console.log(total);
+    return total;
+  }
+
+  else {
+    for(let i = (data.length - 7); i <= (data.length - 1); i++){
+      data[i].exercises.forEach(exercise => {
+          total.push(exercise.weight);
+      });
+    }
+    console.log("Donut weights:");
+    console.log(total);
+    return total;
+  }
 }
 
 function dailyTotalWeight(data) {
@@ -339,13 +352,27 @@ function dailyTotalWeight(data) {
 function workoutNames(data) {
   const workouts = [];
 
-  data.forEach(workout => {
-    workout.exercises.forEach(exercise => {
-      workouts.push(exercise.name.toLowerCase());
+  if (data.length <= 7) {
+    data.forEach(workout => {
+      workout.exercises.forEach(exercise => {
+        workouts.push(exercise.name.toLowerCase());
+      });
     });
-  });
-  
-  return workouts;
+    console.log("Donut chart:");
+    console.log(workouts);
+    return workouts;
+  }
+
+  else {
+    for(let i = (data.length - 7); i <= (data.length - 1); i++){
+      data[i].exercises.forEach(exercise => {
+          workouts.push(exercise.name.toLowerCase());
+      });
+    }
+    console.log("Donut chart:");
+    console.log(workouts);
+    return workouts;
+  }
 }
 
 function workoutNamesForPieChart(data) {
